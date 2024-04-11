@@ -12,7 +12,7 @@ export const register = async (data: z.infer<typeof RegisterSchema>) => {
 	try {
 		await kyFetcher
 			.post(`users`, {
-				body: JSON.stringify(validatedFields.data),
+				json: validatedFields.data,
 			})
 			.json()
 
