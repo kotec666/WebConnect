@@ -5,9 +5,9 @@ import Link from "next/link"
 const Navbar = () => {
 	return (
 		<div className='bg-grey-313 h-[70px] flex justify-between items-center px-[20px]'>
-			<div>
+			<Link href='/'>
 				<Image src='svg/logo.svg' alt='logo' width={50} height={50} />
-			</div>
+			</Link>
 			<div className='flex items-center gap-x-[15px]'>
 				<span className='text-sm'>dadya_vasya</span>
 				<Link href='/profile'>
