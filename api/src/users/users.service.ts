@@ -20,4 +20,12 @@ export class UsersService {
       select: prismaExclude("User", UsersService.exclude)
     })
   }
+
+  async findOne(id: number) {
+    return this.prisma.user.findUnique({
+      where: {
+        id
+      }
+    })
+  }
 }

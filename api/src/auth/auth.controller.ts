@@ -1,4 +1,4 @@
-import {Body, Controller, Post} from '@nestjs/common';
+import {Body, Controller, Post, Res} from '@nestjs/common';
 import {ApiOkResponse, ApiTags} from "@nestjs/swagger";
 import {AuthService} from "./auth.service";
 import {LoginDto} from "./dto/login.dto";
@@ -11,7 +11,13 @@ export class AuthController {
 
   @Post('login')
   @ApiOkResponse({ type: AuthEntity })
-  login(@Body() { email, password }: LoginDto) {
-    return this.authService.login(email, password);
+  async login(@Body() { email, password }: LoginDto, @Res({ passthrough: true }) res) {
+    const token =  await this.authService.login(email, password);
+
+    res.cookie("accessToken", token.accessToken)
+
+    return {
+      accessToken: token.accessToken
+    };
   }
 }
