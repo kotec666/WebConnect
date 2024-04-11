@@ -15,10 +15,8 @@ import {JwtStrategy} from "./jwt.strategy";
       secret: process.env.SECRET,
       signOptions: { expiresIn: '5m' },
     }),
-    UsersModule
-
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy]
+  providers: [AuthService]
 })
 export class AuthModule {}
