@@ -12,6 +12,10 @@ services:
     volumes:
       - grafana-storage:/var/lib/grafana
       - ./grafana/provisioning:/etc/grafana/provisioning
+    networks:
+      - monitor-net
+    labels:
+      org.label-schema.group: "monitoring"
   prometheus:
     image: prom/prometheus:v2.17.1
     container_name: prometheus
@@ -28,6 +32,10 @@ services:
     restart: unless-stopped
     ports:
       - "${PROMETHEUS_PORT}:9090"
+    networks:
+      - monitor-net
+    labels:
+      org.label-schema.group: "monitoring"
   nodeexporter:
     image: prom/node-exporter:v0.18.1
     container_name: nodeexporter
@@ -43,7 +51,15 @@ services:
     restart: unless-stopped
     ports:
       - "${NODEEXPORTER_PORT}:9100"
+    networks:
+      - monitor-net
+    labels:
+      org.label-schema.group: "monitoring"
 
 volumes:
   grafana-storage:
   prometheus-storage:
+
+networks:
+  monitor-net:
+    driver: bridge
