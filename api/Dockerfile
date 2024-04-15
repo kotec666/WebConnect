@@ -7,7 +7,7 @@ COPY yarn.lock ./
 
 RUN yarn
 COPY . .
-RUN yarn db:generate
+RUN npx prisma generate
 
 RUN yarn build
 
