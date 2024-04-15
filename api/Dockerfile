@@ -4,11 +4,10 @@ WORKDIR /app
 
 
 COPY yarn.lock ./
-COPY prisma ./prisma
 
 RUN yarn
-RUN yarn db:generate
 COPY . .
+RUN yarn db:generate
 
 RUN yarn build
 
