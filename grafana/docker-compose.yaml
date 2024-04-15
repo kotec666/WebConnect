@@ -6,9 +6,11 @@ services:
     restart: unless-stopped
     ports:
       - '${PORT}:3000'
+    env_file:
+      - .env
     volumes:
       - grafana-storage:/var/lib/grafana
 
 
 volumes:
-  grafana-storage: { }
+  grafana-storage:
