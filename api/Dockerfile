@@ -4,7 +4,7 @@ WORKDIR /app
 
 
 COPY yarn.lock ./
-COPY prisma ./prisma/
+COPY prisma ./prisma
 
 RUN yarn
 RUN yarn db:generate
