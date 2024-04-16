@@ -7,8 +7,8 @@ import { LoginSchema } from "@/schemas"
 import * as z from "zod"
 import { ErrorMessage } from "@hookform/error-message"
 import { ErrorTextWrapper } from "@/components/ui/ErrorTextWrapper"
-import { login } from "@/api/login"
 import { useTransition } from "react"
+import { login } from "@/api/user"
 
 type Props = {
 	toRegister: () => void
