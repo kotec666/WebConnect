@@ -7,7 +7,7 @@ import { Controller, useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { ErrorMessage } from "@hookform/error-message"
 import { ErrorTextWrapper } from "@/components/ui/ErrorTextWrapper"
-import { register } from "@/api/register"
+import { register } from "@/api/user"
 
 type Props = {
 	toLogin: () => void
