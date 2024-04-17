@@ -8,6 +8,7 @@ import { JwtService } from '@nestjs/jwt';
 import { AuthEntity } from './entity/auth.entity';
 import { ERRORS } from '../validator/errors';
 import { verify } from '../helpers/password';
+import {User} from "@prisma/client";
 
 @Injectable()
 export class AuthService {
@@ -16,7 +17,7 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async login(email: string, password: string): Promise<AuthEntity> {
+  async login(email: string, password: string): Promise<AuthEntity & {user: User}> {
     const user = await this.prisma.user.findUnique({ where: { email: email } });
 
     if (!user) {
@@ -29,8 +30,11 @@ export class AuthService {
       throw new UnauthorizedException(ERRORS.UNAUTHORIZED);
     }
 
+    delete user.password;
+
     return {
       accessToken: this.jwtService.sign({ userId: user.id }),
+      user
     };
   }
 }

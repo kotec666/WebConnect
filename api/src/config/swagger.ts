@@ -4,6 +4,7 @@ import {DocumentBuilder, SwaggerModule} from "@nestjs/swagger";
 const swagger = (app: NestFastifyApplication) => {
   const config = new DocumentBuilder()
     .setTitle('WebConnect api')
+    .addBearerAuth()
     .setVersion('0.1')
     .build();
 

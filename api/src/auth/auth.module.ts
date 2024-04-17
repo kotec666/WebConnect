@@ -6,6 +6,8 @@ import {PassportModule} from "@nestjs/passport";
 import {JwtModule} from "@nestjs/jwt";
 import {UsersModule} from "../users/users.module";
 import {JwtStrategy} from "./jwt.strategy";
+import {GoogleOAuthGuard} from "./google-ouath.guard";
+import {GoogleStrategy} from "./google.strategy";
 
 @Module({
   imports: [
@@ -15,8 +17,9 @@ import {JwtStrategy} from "./jwt.strategy";
       secret: process.env.SECRET,
       signOptions: { expiresIn: '5m' },
     }),
+    UsersModule,
   ],
   controllers: [AuthController],
-  providers: [AuthService]
+  providers: [AuthService, JwtStrategy, GoogleStrategy]
 })
 export class AuthModule {}

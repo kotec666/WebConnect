@@ -22,10 +22,20 @@ export class UsersService {
   }
 
   async findOne(id: number) {
-    return this.prisma.user.findUnique({
+    return this.prisma.user.findFirstOrThrow({
       where: {
         id
-      }
+      },
+      select: prismaExclude("User", UsersService.exclude)
+    })
+  }
+
+  async findOneByEmail(email: string) {
+    return this.prisma.user.findFirstOrThrow({
+      where: {
+        email
+      },
+      select: prismaExclude("User", UsersService.exclude)
     })
   }
 }
