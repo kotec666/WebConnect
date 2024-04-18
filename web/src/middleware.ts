@@ -11,6 +11,7 @@ export async function middleware(request: NextRequest) {
 
 	const user = await useAuth()
 
+	console.log(user)
 	const isLoggedIn = !!user
 
 	if (isAuthRoute) {
