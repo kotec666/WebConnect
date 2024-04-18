@@ -45,6 +45,13 @@ export class AuthController {
   @Get("oauth/google")
   @UseGuards(GoogleOAuthGuard)
   async googleAuth(@Req() req) {
-    return req
+    return req.user
+  }
+
+  @Get("oauth/test")
+  async test(@Res({passthrough: true}) res) {
+    res.header("Content-Type", "html")
+
+    return "<div>asdas</div>"
   }
 }
