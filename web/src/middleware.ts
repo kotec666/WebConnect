@@ -1,6 +1,7 @@
 import { authRoutes, publicRoutes, DEFAULT_LOGIN_REDIRECT } from "@/routes"
 import { cookies } from "next/headers"
 import { NextRequest, NextResponse } from "next/server"
+import useAuth from "@/hooks/useAuth"
 
 export async function middleware(request: NextRequest) {
 	const { nextUrl } = request
@@ -11,6 +12,8 @@ export async function middleware(request: NextRequest) {
 
 	const isPublicRoute = publicRoutes.includes(nextUrl.pathname)
 	const isAuthRoute = authRoutes.includes(nextUrl.pathname)
+
+	const user = await useAuth()
 
 	const isLoggedIn = token?.value === "undefined"
 

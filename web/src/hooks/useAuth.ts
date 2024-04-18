@@ -1,11 +1,10 @@
 import { cookies, headers } from "next/headers"
-import { redirect, RedirectType } from "next/navigation"
 import { User } from "@/types"
 import { auth } from "@/api/user"
 
-const useAuth = async (url?: string): Promise<undefined | User> => {
+const useAuth = async (): Promise<undefined | User> => {
 	const cookieStore = cookies()
-	const token = cookieStore.get("token")
+	const token = cookieStore.get("accessToken")
 
 	try {
 		const user = (await auth(`accessToken=${token?.value}`)) as User

@@ -4,16 +4,13 @@ import React from "react"
 const OAuthButtons = () => {
 	const googleAuthHandler = () => {
 		window.open(
-			`${process.env.NEXT_PUBLIC_APP_API_URL}/api/user/google`,
+			`${process.env.NEXT_PUBLIC_APP_API_URL}/auth/oauth/google`,
 			"_self",
 		)
 	}
 
 	const githubAuthHandler = () => {
-		window.open(
-			`${process.env.NEXT_PUBLIC_APP_API_URL}/api/user/github`,
-			"_self",
-		)
+		window.open(`${process.env.NEXT_PUBLIC_APP_API_URL}/user/github`, "_self")
 	}
 
 	return (

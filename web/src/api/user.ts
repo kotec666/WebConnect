@@ -35,11 +35,11 @@ export const login = async (data: z.infer<typeof LoginSchema>) => {
 	}
 
 	try {
-		await kyFetcher
+		const data = (await kyFetcher
 			.post(`auth/login`, {
 				json: validatedFields.data,
 			})
-			.json()
+			.json()) as { user: User; accessToken: string }
 	} catch (e) {
 		return { error: "Неверные данные для авторизации" }
 	}
@@ -47,12 +47,19 @@ export const login = async (data: z.infer<typeof LoginSchema>) => {
 	// mutate("auth/login")
 }
 
-export const auth = async (cookie?: string): Promise<User> => {
+export const auth = async (token?: string): Promise<User> => {
+	const req = await kyFetcher.get("auth", {
+		cache: "no-store",
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
+	})
+	console.log("REQ", req)
 	return (
 		await kyFetcher.get("auth", {
 			cache: "no-store",
 			headers: {
-				cookie: cookie,
+				Authorization: `Bearer ${token}`,
 			},
 		})
 	).json()
