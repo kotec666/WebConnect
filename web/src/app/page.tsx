@@ -1,9 +1,12 @@
 import Layout from "@/components/Layout"
 import Image from "next/image"
+import useAuth from "@/hooks/useAuth"
 
-export default function Home() {
+export default async function Home() {
+	const user = await useAuth()
+
 	return (
-		<Layout>
+		<Layout user={user}>
 			<main className=''>
 				<div className='grid grid-cols-[20%,_80%] w-full h-[calc(100vh-70px)]'>
 					<aside className='h-full'>
