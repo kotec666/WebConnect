@@ -31,7 +31,11 @@ const AuthorizeForm = (props: Props) => {
 
 		startTransition(() => {
 			login(data).then(data => {
-				setError(data?.error)
+				if (data?.error) {
+					setError(data?.error)
+				} else {
+					return (window.location.href = "/profile")
+				}
 			})
 		})
 	}

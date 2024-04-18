@@ -7,7 +7,7 @@ const useAuth = async (): Promise<undefined | User> => {
 	const token = cookieStore.get("accessToken")
 
 	try {
-		const user = (await auth(`accessToken=${token?.value}`)) as User
+		const user = (await auth(token?.value)) as User
 		return user
 	} catch (e) {
 		const headersList = headers()
