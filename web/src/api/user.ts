@@ -52,8 +52,7 @@ export const auth = async (token?: string): Promise<User> => {
 		await kyFetcher.get("auth", {
 			cache: "no-store",
 			headers: {
-				Authorization: `Bearer ${token}`,
-				// cookie: `token=${token}`,
+				cookie: `token=${token}`,
 			},
 		})
 	).json()
