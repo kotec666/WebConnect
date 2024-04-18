@@ -24,7 +24,9 @@ export const UpdateUserDataSchema = z.object(
 			.min(3, { message: "Никнейм должен быть не менее 3 символов" }),
 		password: z
 			.string()
-			.or(z.string().min(8, "Пароль должен быть не менее 8 символов")),
+			.min(8, "Пароль должен быть не менее 8 символов")
+			.optional()
+			.or(z.literal("")),
 	},
 	{ required_error: "Обязательное поле" },
 )

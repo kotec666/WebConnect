@@ -7,7 +7,7 @@ import { User } from "@/types"
 import { useUserStore } from "@/store/user"
 import { Controller, useForm } from "react-hook-form"
 import * as z from "zod"
-import { RegisterSchema } from "@/schemas"
+import { UpdateUserDataSchema } from "@/schemas"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { ErrorMessage } from "@hookform/error-message"
 import { ErrorTextWrapper } from "@/components/ui/ErrorTextWrapper"
@@ -20,8 +20,8 @@ const ProfileLayout = (props: IProps) => {
 	const user = useUserStore(state => state.user)
 	const setUser = useUserStore(state => state.setUser)
 
-	const form = useForm<z.infer<typeof RegisterSchema>>({
-		resolver: zodResolver(RegisterSchema),
+	const form = useForm<z.infer<typeof UpdateUserDataSchema>>({
+		resolver: zodResolver(UpdateUserDataSchema),
 		mode: "onSubmit",
 		reValidateMode: "onBlur",
 		values: {
