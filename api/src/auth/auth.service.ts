@@ -18,7 +18,7 @@ export class AuthService {
   ) {}
 
   async login(email: string, password: string): Promise<AuthEntity & {user: User}> {
-    const user = await this.prisma.user.findUnique({ where: { email: email } });
+    const user = await this.prisma.user.findFirstOrThrow({ where: { email: email } });
 
     if (!user) {
       throw new NotFoundException(ERRORS.NOT_FOUND);
@@ -36,5 +36,16 @@ export class AuthService {
       accessToken: this.jwtService.sign({ userId: user.id }),
       user
     };
+  }
+
+  async createToken(email: string) {
+    const user = await this.prisma.user.findFirstOrThrow({ where: { email: email } });
+
+    delete user.password;
+
+    return {
+      accessToken: this.jwtService.sign({ userId: user.id }),
+      user
+    }
   }
 }

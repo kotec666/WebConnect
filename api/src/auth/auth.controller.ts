@@ -50,8 +50,10 @@ export class AuthController {
 
   @Get("oauth/google/redirect")
   @UseGuards(GoogleOAuthGuard)
-  async test(@Req() req) {
+  async googleRedirect(@Req() req, @Res({passthrough: true}) res) {
+    const data =  await this.authService.createToken(req.user.email);
 
-    return req.user
+    res.cookie("accessToken", data.accessToken)
+    return data
   }
 }
