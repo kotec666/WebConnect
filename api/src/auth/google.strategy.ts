@@ -20,7 +20,14 @@ export class GoogleStrategy extends PassportStrategy(Strategy, "google") {
     profile: any,
     done: VerifyCallback,
   ): Promise<any> {
-    const user = this.usersService.findOneByEmail(profile.email)
+    let user = await this.usersService.findOneByEmailOrNull(profile.email)
+
+    if(!user) {
+      user = await this.usersService.createByIntegration({
+        name: profile.displayName,
+        email: profile.emails[0]?.value
+      })
+    }
 
     done(null, user)
   }

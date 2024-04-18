@@ -4,6 +4,7 @@ import {PrismaService} from "../prisma/prisma.service";
 import {hash} from "../helpers/password";
 import prismaExclude, {Entity, Keys} from "../helpers/prismaExclude";
 import {User} from "@prisma/client";
+import {CreateUserByIntegrationDto} from "./dto/create-user-by-integration.dto";
 
 @Injectable()
 export class UsersService {
@@ -21,6 +22,15 @@ export class UsersService {
     })
   }
 
+  async createByIntegration(data: CreateUserByIntegrationDto) {
+    return this.prisma.user.create({
+      data: {
+        ...data,
+      },
+      select: prismaExclude("User", UsersService.exclude)
+    })
+  }
+
   async findOne(id: number) {
     return this.prisma.user.findFirstOrThrow({
       where: {
@@ -30,8 +40,8 @@ export class UsersService {
     })
   }
 
-  async findOneByEmail(email: string) {
-    return this.prisma.user.findFirstOrThrow({
+  async findOneByEmailOrNull(email: string) {
+    return this.prisma.user.findFirst({
       where: {
         email
       },
