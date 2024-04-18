@@ -25,7 +25,7 @@ export class GoogleStrategy extends PassportStrategy(Strategy, "google") {
     if(!user) {
       user = await this.usersService.createByIntegration({
         name: profile.displayName,
-        email: profile.emails[0]
+        email: profile.emails[0]?.value
       })
     }
 
