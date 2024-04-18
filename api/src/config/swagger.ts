@@ -4,7 +4,7 @@ import {NestExpressApplication} from "@nestjs/platform-express";
 const swagger = (app: NestExpressApplication) => {
   const config = new DocumentBuilder()
     .setTitle('WebConnect api')
-    .addBearerAuth()
+    .addCookieAuth("accessToken")
     .setVersion('0.1')
     .build();
 
