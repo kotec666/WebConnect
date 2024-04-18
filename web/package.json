@@ -3,15 +3,17 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "dotenv -c -- next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "dotenv -c -- next start",
+    "start:prod": "dotenv -c -- nod",
     "lint": "next lint"
   },
   "dependencies": {
     "@hookform/error-message": "^2.0.1",
     "@hookform/resolvers": "^3.3.4",
     "classnames": "^2.5.1",
+    "dotenv-cli": "^7.4.1",
     "ky": "^1.2.3",
     "next": "14.1.4",
     "react": "^18",

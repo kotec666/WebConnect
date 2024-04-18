@@ -1,17 +1,17 @@
-FROM node:20 AS builder
+FROM node:20-alpine AS builder
 
 WORKDIR /app
 
 
 COPY yarn.lock ./
 
-RUN yarn
+RUN yarn install --frozen-lockfile
 COPY . .
 RUN npx prisma generate
 
 RUN yarn build
 
-FROM node:20
+FROM node:20-alpine
 
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package*.json ./

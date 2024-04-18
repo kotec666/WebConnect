@@ -11,6 +11,18 @@ services:
       - postgres
     env_file:
       - ./api/.env
+  web:
+    build:
+      context: ./web
+      dockerfile: Dockerfile
+    container_name: web
+    restart: unless-stopped
+    ports:
+      - "${WEB_PORT}:${WEB_PORT}"
+    depends_on:
+      - api
+    env_file:
+      - ./web/.env
   postgres:
     image: postgres
     container_name: postgres
