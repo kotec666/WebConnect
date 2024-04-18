@@ -31,3 +31,22 @@ body {
     text-wrap: balance;
   }
 }
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #666666 transparent;
+}
+
+.custom__scrollbar {
+  *::-webkit-scrollbar {
+    width: 2px;
+  }
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  *::-webkit-scrollbar-thumb {
+    background-color: #666666;
+    border-radius: 0px;
+    border: 1px none #ffffff;
+  }
+}
