@@ -33,6 +33,19 @@ services:
       - ./api/.env
     volumes:
       - postgres:/var/lib/postgresql/data
+  nginx:
+    restart: unless-stopped
+    image: nginx:1.19-alpine
+    container_name: nginx
+    volumes:
+      - ./nginx.conf:/etc/nginx/templates/default.conf.template
+    env_file:
+      - .env
+    ports:
+      - "${NGINX_PORT}:${NGINX_PORT}"
+    depends_on:
+      - api
+      - web
 
 volumes:
   postgres:
