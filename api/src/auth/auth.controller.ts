@@ -48,10 +48,10 @@ export class AuthController {
     return req.user
   }
 
-  @Get("oauth/test")
-  async test(@Res({passthrough: true}) res) {
-    res.header("Content-Type", "html")
+  @Get("oauth/google/redirect")
+  @UseGuards(GoogleOAuthGuard)
+  async test(@Req() req) {
 
-    return "<div>asdas</div>"
+    return req.user
   }
 }
