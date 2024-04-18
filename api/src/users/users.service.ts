@@ -30,8 +30,8 @@ export class UsersService {
     })
   }
 
-  async findOneByEmail(email: string) {
-    return this.prisma.user.findFirstOrThrow({
+  async findOneByEmailOrNull(email: string) {
+    return this.prisma.user.findFirst({
       where: {
         email
       },
