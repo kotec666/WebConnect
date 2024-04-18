@@ -1,10 +1,10 @@
-import { NestFastifyApplication } from '@nestjs/platform-fastify';
 import swagger from './swagger';
 import cookies from './cookies';
 import global from './global';
 import cors from './cors';
+import {NestExpressApplication} from "@nestjs/platform-express";
 
-const entryConfig = (app: NestFastifyApplication) => {
+const entryConfig = (app: NestExpressApplication) => {
   app.setGlobalPrefix('/api');
 
   const configs = [swagger, cookies, global, cors];

@@ -1,7 +1,7 @@
-import {NestFastifyApplication} from "@nestjs/platform-fastify";
 import {DocumentBuilder, SwaggerModule} from "@nestjs/swagger";
+import {NestExpressApplication} from "@nestjs/platform-express";
 
-const swagger = (app: NestFastifyApplication) => {
+const swagger = (app: NestExpressApplication) => {
   const config = new DocumentBuilder()
     .setTitle('WebConnect api')
     .addBearerAuth()

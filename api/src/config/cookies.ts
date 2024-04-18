@@ -1,11 +1,8 @@
-import {NestFastifyApplication} from "@nestjs/platform-fastify";
-import fastifyCookie from "@fastify/cookie";
+import {NestExpressApplication} from "@nestjs/platform-express";
+import * as cookieParser from "cookie-parser";
 
-const cookies = (app: NestFastifyApplication) => {
-  app.register(fastifyCookie, {
-    secret: process.env.SECRET, // for cookies signature
-    path: "/"
-  });
+const cookies = (app: NestExpressApplication) => {
+  app.use(cookieParser());
 }
 
 export default cookies

@@ -17,6 +17,9 @@ export class AuthController {
   @ApiOkResponse({ type: AuthEntity })
   async login(@Body() { email, password }: LoginDto, @Res({ passthrough: true }) res) {
     const data =  await this.authService.login(email, password);
+
+    res.cookie("accessToken", data.accessToken)
+
     return data
   }
 
@@ -33,6 +36,9 @@ export class AuthController {
   @ApiBearerAuth()
   @Delete()
   async logout(@Req() req, @Res({passthrough: true}) res) {
+
+    res.cookie("accessToken", undefined)
+
     return true
   }
 
