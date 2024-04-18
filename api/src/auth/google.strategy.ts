@@ -22,7 +22,12 @@ export class GoogleStrategy extends PassportStrategy(Strategy, "google") {
   ): Promise<any> {
     let user = await this.usersService.findOneByEmailOrNull(profile.email)
 
-    console.log(profile)
+    if(!user) {
+      user = await this.usersService.createByIntegration({
+        name: profile.displayName,
+        email: profile.emails[0]
+      })
+    }
 
     done(null, user)
   }

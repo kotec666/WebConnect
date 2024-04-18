@@ -4,6 +4,7 @@ import {PrismaService} from "../prisma/prisma.service";
 import {hash} from "../helpers/password";
 import prismaExclude, {Entity, Keys} from "../helpers/prismaExclude";
 import {User} from "@prisma/client";
+import {CreateUserByIntegrationDto} from "./dto/create-user-by-integration.dto";
 
 @Injectable()
 export class UsersService {
@@ -16,6 +17,15 @@ export class UsersService {
       data: {
         ...data,
         password: await hash(data.password)
+      },
+      select: prismaExclude("User", UsersService.exclude)
+    })
+  }
+
+  async createByIntegration(data: CreateUserByIntegrationDto) {
+    return this.prisma.user.create({
+      data: {
+        ...data,
       },
       select: prismaExclude("User", UsersService.exclude)
     })
