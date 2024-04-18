@@ -48,19 +48,17 @@ export const login = async (data: z.infer<typeof LoginSchema>) => {
 }
 
 export const auth = async (token?: string): Promise<User> => {
-	const req = await kyFetcher.get("auth", {
-		cache: "no-store",
-		headers: {
-			Authorization: `Bearer ${token}`,
-		},
-	})
-	console.log("REQ", req)
 	return (
 		await kyFetcher.get("auth", {
 			cache: "no-store",
 			headers: {
 				Authorization: `Bearer ${token}`,
+				// cookie: `token=${token}`,
 			},
 		})
 	).json()
+}
+
+export const logout = async (): Promise<boolean> => {
+	return (await kyFetcher.delete("auth")).json()
 }
