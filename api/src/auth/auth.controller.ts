@@ -54,6 +54,7 @@ export class AuthController {
     const data =  await this.authService.createToken(req.user.email);
 
     res.cookie("accessToken", data.accessToken)
-    return data
+
+    return res.redirect("/")
   }
 }
