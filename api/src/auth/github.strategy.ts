@@ -24,13 +24,12 @@ export class GithubStrategy extends PassportStrategy(Strategy, "github") {
 
     let user = await this.usersService.findOneByEmailOrNull(profile.email)
 
-    console.log(profile)
-    // if(!user) {
-    //   user = await this.usersService.createByIntegration({
-    //     name: profile.displayName,
-    //     email: profile.emails[0]?.value
-    //   })
-    // }
+    if(!user) {
+      user = await this.usersService.createByIntegration({
+        name: profile.displayName,
+        email: profile.emails[0]?.value
+      })
+    }
 
     done(null, profile)
   }
