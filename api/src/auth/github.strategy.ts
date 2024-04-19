@@ -11,6 +11,7 @@ export class GithubStrategy extends PassportStrategy(Strategy, "github") {
       clientID: process.env.GITHUB_CLIENT_ID,
       clientSecret: process.env.GITHUB_CLIENT_SECRET,
       callbackURL: process.env.GITHUB_CALLBACK_URL,
+      scope: ["user:email"]
     });
   }
 
@@ -21,9 +22,8 @@ export class GithubStrategy extends PassportStrategy(Strategy, "github") {
     done: VerifyCallback,
   ): Promise<any> {
 
-    console.log(profile)
-    // let user = await this.usersService.findOneByEmailOrNull(profile.email)
-    //
+    let user = await this.usersService.findOneByEmailOrNull(profile.email)
+
     // if(!user) {
     //   user = await this.usersService.createByIntegration({
     //     name: profile.displayName,
