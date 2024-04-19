@@ -24,6 +24,7 @@ export class GithubStrategy extends PassportStrategy(Strategy, "github") {
 
     let user = await this.usersService.findOneByEmailOrNull(profile.email)
 
+    console.log(profile)
     // if(!user) {
     //   user = await this.usersService.createByIntegration({
     //     name: profile.displayName,
