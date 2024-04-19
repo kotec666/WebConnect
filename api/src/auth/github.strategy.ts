@@ -31,6 +31,6 @@ export class GithubStrategy extends PassportStrategy(Strategy, "github") {
       })
     }
 
-    done(null, profile)
+    done(null, user)
   }
 }
