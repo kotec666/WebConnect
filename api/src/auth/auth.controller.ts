@@ -57,4 +57,20 @@ export class AuthController {
 
     return res.redirect("/")
   }
+
+  @Get("oauth/github")
+  @UseGuards(GoogleOAuthGuard)
+  async githubAuth(@Req() req) {
+    return req.user
+  }
+
+  @Get("oauth/github/redirect")
+  @UseGuards(GoogleOAuthGuard)
+  async githubRedirect(@Req() req, @Res({passthrough: true}) res) {
+    const data =  await this.authService.createToken(req.user.email);
+
+    res.cookie("accessToken", data.accessToken)
+
+    return res.redirect("/")
+  }
 }
