@@ -1,13 +1,18 @@
-import React, {PropsWithChildren} from 'react';
-import Navbar from "@/components/Navbar";
+import React, { PropsWithChildren } from "react"
+import Navbar from "@/components/Navbar"
+import { User } from "@/types"
 
-const Layout = (props: PropsWithChildren) => {
-    return (
-        <div>
-            <Navbar />
-            {props.children}
-        </div>
-    );
-};
+interface IProps extends PropsWithChildren {
+	user: User | undefined
+}
 
-export default Layout;
+const Layout = (props: IProps) => {
+	return (
+		<div>
+			<Navbar user={props.user} />
+			{props.children}
+		</div>
+	)
+}
+
+export default Layout
