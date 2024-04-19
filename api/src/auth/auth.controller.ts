@@ -6,7 +6,8 @@ import {AuthEntity} from "./entity/auth.entity";
 import {JwtAuthGuard} from "./jwt-auth.guard";
 import { User } from "@prisma/client";
 import {UserEntity} from "../users/entity/user.entity";
-import {GoogleOAuthGuard} from "./google-ouath.guard";
+import {GoogleOauthGuard} from "./google-oauth.guard";
+import {GithubOauthGuard} from "./github-oauth.guard";
 
 @Controller('auth')
 @ApiTags('auth')
@@ -43,13 +44,13 @@ export class AuthController {
   }
 
   @Get("oauth/google")
-  @UseGuards(GoogleOAuthGuard)
+  @UseGuards(GoogleOauthGuard)
   async googleAuth(@Req() req) {
     return req.user
   }
 
   @Get("oauth/google/redirect")
-  @UseGuards(GoogleOAuthGuard)
+  @UseGuards(GoogleOauthGuard)
   async googleRedirect(@Req() req, @Res({passthrough: true}) res) {
     const data =  await this.authService.createToken(req.user.email);
 
@@ -59,13 +60,13 @@ export class AuthController {
   }
 
   @Get("oauth/github")
-  @UseGuards(GoogleOAuthGuard)
+  @UseGuards(GithubOauthGuard)
   async githubAuth(@Req() req) {
     return req.user
   }
 
   @Get("oauth/github/redirect")
-  @UseGuards(GoogleOAuthGuard)
+  @UseGuards(GithubOauthGuard)
   async githubRedirect(@Req() req, @Res({passthrough: true}) res) {
     const data =  await this.authService.createToken(req.user.email);
 
