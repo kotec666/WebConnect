@@ -10,7 +10,10 @@ const OAuthButtons = () => {
 	}
 
 	const githubAuthHandler = () => {
-		window.open(`${process.env.NEXT_PUBLIC_APP_API_URL}/user/github`, "_self")
+		window.open(
+			`${process.env.NEXT_PUBLIC_APP_API_URL}/auth/oauth/github`,
+			"_self",
+		)
 	}
 
 	return (
