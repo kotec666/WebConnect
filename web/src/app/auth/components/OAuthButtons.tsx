@@ -1,19 +1,14 @@
 "use client"
 import React from "react"
+import config from "@/helpers/config"
 
 const OAuthButtons = () => {
 	const googleAuthHandler = () => {
-		window.open(
-			`${process.env.NEXT_PUBLIC_APP_API_URL}/auth/oauth/google`,
-			"_self",
-		)
+		window.open(`${config.NEXT_PUBLIC_API_URL}/auth/oauth/google`, "_self")
 	}
 
 	const githubAuthHandler = () => {
-		window.open(
-			`${process.env.NEXT_PUBLIC_APP_API_URL}/auth/oauth/github`,
-			"_self",
-		)
+		window.open(`${config.NEXT_PUBLIC_API_URL}/auth/oauth/github`, "_self")
 	}
 
 	return (

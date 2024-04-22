@@ -1,7 +1,8 @@
 import ky from "ky"
+import config from "@/helpers/config"
 
 const kyFetcher = ky.extend({
-	prefixUrl: process.env.NEXT_PUBLIC_APP_API_URL, //  + "/api"
+	prefixUrl: config.NEXT_PUBLIC_API_URL, //  + "/api"
 	credentials: "include",
 })
 
