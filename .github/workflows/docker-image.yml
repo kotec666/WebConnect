@@ -28,4 +28,4 @@ jobs:
         with:
           context: ./api
           push: true
-          tags: ${{ secrets.REGISTRY_HOST }}/webconnect:api
+          tags: registry.dsavelyev.ru/webconnect:api
