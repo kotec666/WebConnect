@@ -11,7 +11,7 @@ const ChatsPanel = (props: IProps) => {
 		contextAction: false,
 	})
 
-	const groupRef = React.useRef<HTMLDivElement>(null)
+	const groupRef = React.useRef<HTMLAnchorElement>(null)
 	useOutsideClick(groupRef, () => {
 		return setData(s => ({ ...s, contextAction: false }))
 	})
