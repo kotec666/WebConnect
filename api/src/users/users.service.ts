@@ -5,6 +5,7 @@ import {hash} from "../helpers/password";
 import prismaExclude, {Entity, Keys} from "../helpers/prismaExclude";
 import {User} from "@prisma/client";
 import {CreateUserByIntegrationDto} from "./dto/create-user-by-integration.dto";
+import {UpdateUserDto} from "./dto/update-user.dto";
 
 @Injectable()
 export class UsersService {
@@ -35,6 +36,19 @@ export class UsersService {
     return this.prisma.user.findFirstOrThrow({
       where: {
         id
+      },
+      select: prismaExclude("User", UsersService.exclude)
+    })
+  }
+
+  async update(id: number, updateUserDto: UpdateUserDto) {
+    return this.prisma.user.update({
+      where: {
+        id
+      },
+      data: {
+        ...updateUserDto,
+        password: updateUserDto.password ? await hash(updateUserDto.password) : undefined
       },
       select: prismaExclude("User", UsersService.exclude)
     })
