@@ -53,3 +53,16 @@ jobs:
           context: "{{defaultContext}}:web"
           push: true
           tags: registry.dsavelyev.ru/webconnect-web
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    needs: [api, web]
+    steps:
+    - name: executing remote ssh commands using password
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        password: ${{ secrets.PASSWORD }}
+        port: ${{ secrets.PORT }}
+        script: start.sh
