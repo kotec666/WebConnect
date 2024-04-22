@@ -29,4 +29,4 @@ jobs:
         with:
           context: "{{defaultContext}}:api"
           push: true
-          tags: webconnect:api
+          tags: webconnect-api
