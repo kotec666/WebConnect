@@ -18,4 +18,24 @@ model User {
   email    String  @unique
   name     String  @unique
   password String?
+
+  friends              Friend[]        @relation("friends")
+  friendRequest        FriendRequest[] @relation("friendRequestsRecipient")
+  FriendRequestPenging FriendRequest[] @relation("friendRequestsSender")
+}
+
+model FriendRequest {
+  recipient   User @relation("friendRequestsRecipient", fields: [recipientId], references: [id])
+  recipientId Int
+  sender      User @relation("friendRequestsSender", fields: [senderId], references: [id])
+  senderId    Int
+
+  @@id([recipientId, senderId])
+}
+
+model Friend {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  owner     User?    @relation("friends", fields: [ownerId], references: [id])
+  ownerId   Int?
 }
