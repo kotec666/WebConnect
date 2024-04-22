@@ -1,0 +1,11 @@
+services:
+  web:
+    build:
+      context: ./api
+      dockerfile: ./Dockerfile
+    image: registry.dsavelyev.ru/webconnect:api
+  api:
+    build:
+      context: ./web
+      dockerfile: ./Dockerfile
+    image: registry.dsavelyev.ru/webconnect:web

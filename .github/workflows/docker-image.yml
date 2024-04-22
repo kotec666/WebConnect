@@ -7,7 +7,7 @@ on:
     branches: [ "master" ]
 
 jobs:
-  docker:
+  api:
     runs-on: ubuntu-latest
     steps:
       -
@@ -30,3 +30,26 @@ jobs:
           context: "{{defaultContext}}:api"
           push: true
           tags: registry.dsavelyev.ru/webconnect-api
+  web:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+      -
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      -
+        name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          registry: registry.dsavelyev.ru
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_TOKEN }}
+      -
+        name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: "{{defaultContext}}:web"
+          push: true
+          tags: registry.dsavelyev.ru/webconnect-web
