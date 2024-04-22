@@ -20,6 +20,7 @@ jobs:
         name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
+          registry: registry.dsavelyev.ru
           username: ${{ secrets.REGISTRY_USERNAME }}
           password: ${{ secrets.REGISTRY_TOKEN }}
       -
@@ -28,4 +29,4 @@ jobs:
         with:
           context: ./api
           push: true
-          tags: registry.dsavelyev.ru/webconnect:api
+          tags: webconnect:api
