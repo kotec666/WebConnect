@@ -2,7 +2,7 @@
 import React from "react"
 import Input from "@/components/ui/Input"
 import Button from "@/components/ui/Button"
-import { auth, logout } from "@/api/user"
+import { auth, logout, updateUser } from "@/api/user"
 import { User } from "@/types"
 import { useUserStore } from "@/store/user"
 import { Controller, useForm } from "react-hook-form"
@@ -27,7 +27,7 @@ const ProfileLayout = (props: IProps) => {
 		values: {
 			email: user?.email,
 			name: user?.name,
-			password: "",
+			password: undefined,
 		},
 	})
 
@@ -41,7 +41,7 @@ const ProfileLayout = (props: IProps) => {
 	}
 
 	const onSubmit = async (data: Partial<User>) => {
-		//	await saveUserData(data)
+		await updateUser(data)
 		const newUser = await auth()
 		setUser(newUser)
 	}

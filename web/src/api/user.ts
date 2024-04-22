@@ -1,5 +1,5 @@
 import * as z from "zod"
-import { LoginSchema, RegisterSchema } from "@/schemas"
+import { LoginSchema, RegisterSchema, UpdateUserDataSchema } from "@/schemas"
 import kyFetcher from "@/api/ky"
 import { User } from "@/types"
 
@@ -60,4 +60,30 @@ export const auth = async (token?: string): Promise<User> => {
 
 export const logout = async (): Promise<boolean> => {
 	return (await kyFetcher.delete("auth")).json()
+}
+
+export const updateUser = async (
+	data: Partial<z.infer<typeof UpdateUserDataSchema>>,
+) => {
+	const validatedFields = UpdateUserDataSchema.safeParse(data)
+
+	if (!validatedFields.success) {
+		return { error: "Ошибка валидации полей" }
+	}
+
+	try {
+		await kyFetcher
+			.patch(`users`, {
+				json: validatedFields.data,
+			})
+			.json()
+
+		return { success: "Пользователь успешно обновлен" }
+	} catch (e) {
+		return { error: "Ошибка регистрации" }
+	}
+
+	// return пользователь зарегистрирован
+
+	// mutate("api/auth/login")
 }
