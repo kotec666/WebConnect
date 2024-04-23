@@ -19,7 +19,7 @@ const replace = (ext = "js") => {
 
 	searchKeys.map(key => {
 		const r = replaceInFileSync({
-			files: [`.next/**/*.${ext}`, `./*.${ext}`],
+			files: `app/**/*.${ext}`,
 			from: `$${key}$`,
 			to: env[key],
 			glob: {

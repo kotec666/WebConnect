@@ -43,8 +43,8 @@ RUN chown nextjs:nodejs .next
 RUN yarn init -y && yarn add dotenv replace-in-file && rm yarn.lock && rm package.json
 # Automatically leverage output traces to reduce image size
 # https://nextjs.org/docs/advanced-features/output-file-tracing
-COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
-COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./app
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./app/.next/static
 COPY --from=builder --chown=nextjs:nodejs /app/replace-env.js .
 
 USER nextjs
@@ -55,4 +55,4 @@ ENV PORT 3000
 
 # server.js is created by next build from the standalone output
 # https://nextjs.org/docs/pages/api-reference/next-config-js/output
-CMD node replace-env.js && HOSTNAME="0.0.0.0" node server.js
+CMD node replace-env.js && cd app && HOSTNAME="0.0.0.0" node server.js
