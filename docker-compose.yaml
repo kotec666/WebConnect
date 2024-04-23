@@ -5,6 +5,7 @@ services:
       dockerfile: Dockerfile
     container_name: api
     restart: unless-stopped
+    image: registry.dsavelyev.ru/webconnect:api
     ports:
       - "${SERVER_PORT}:${SERVER_PORT}"
     depends_on:
@@ -16,6 +17,7 @@ services:
       context: ./web
       dockerfile: Dockerfile
     container_name: web
+    image: registry.dsavelyev.ru/webconnect:web
     restart: unless-stopped
     ports:
       - "${WEB_PORT}:${WEB_PORT}"

@@ -29,7 +29,7 @@ jobs:
         with:
           context: "{{defaultContext}}:api"
           push: true
-          tags: registry.dsavelyev.ru/webconnect-api
+          tags: registry.dsavelyev.ru/webconnect:api
   web:
     runs-on: ubuntu-latest
     steps:
@@ -52,7 +52,7 @@ jobs:
         with:
           context: "{{defaultContext}}:web"
           push: true
-          tags: registry.dsavelyev.ru/webconnect-web
+          tags: registry.dsavelyev.ru/webconnect:web
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
