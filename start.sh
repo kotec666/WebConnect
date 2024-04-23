@@ -6,4 +6,4 @@ git pull
 echo "docker compose pull"
 docker compose pull
 echo "docker compose restart"
-docker compose up -d
+docker compose up -d --force-recreate
