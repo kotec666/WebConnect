@@ -11,7 +11,7 @@ export default async function Home() {
 			<ChatsPanel>
 				<div />
 				<div className='flex pl-[25%] justify-start items-start w-full pt-[10vh]'>
-					<span className='text-3xl'>Выберите чат на панели слева</span>
+					<span className='text-3xl'>Выберите чат на панели слева XYZ</span>
 				</div>
 			</ChatsPanel>
 		</Layout>
