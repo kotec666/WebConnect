@@ -2,7 +2,7 @@ const { config } = require("dotenv")
 const { replaceInFileSync } = require("replace-in-file")
 
 config({
-	path: "../../../.env",
+	path: "../.env",
 })
 
 const env = process.env
@@ -19,7 +19,7 @@ const replace = (ext = "js") => {
 
 	searchKeys.map(key => {
 		const r = replaceInFileSync({
-			files: `apps/**/*.${ext}`,
+			files: `./**/*.${ext}`,
 			from: `$${key}$`,
 			to: env[key],
 			glob: {
