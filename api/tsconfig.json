@@ -1,15 +1,16 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
     "declaration": true,
     "removeComments": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
-    "target": "ES2021",
     "sourceMap": true,
     "outDir": "./dist",
     "baseUrl": "./",
+    "moduleResolution": "node16",
+    "module": "NodeNext",
+    "target": "esnext",
     "incremental": true,
     "skipLibCheck": true,
     "strictNullChecks": false,

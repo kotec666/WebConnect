@@ -2,6 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { AddDto } from './dto/add.dto';
 import { PrismaService } from '../../../prisma/prisma.service';
 import { ERRORS } from '../../../validator/errors';
+import {ApproveDto} from "./dto/approve.dto";
 
 @Injectable()
 export class RequestsService {
@@ -35,5 +36,17 @@ export class RequestsService {
     });
 
     return true;
+  }
+
+  async approve(id: number, approveDto: ApproveDto) {
+    console.log(id, approveDto)
+    const request =  await this.prisma.friendRequest.findFirstOrThrow({
+      where: {
+        senderId: approveDto.id,
+        recipientId: id,
+      },
+    })
+
+    return request;
   }
 }
