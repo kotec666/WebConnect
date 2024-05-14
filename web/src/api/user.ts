@@ -1,5 +1,10 @@
 import * as z from "zod"
-import { LoginSchema, RegisterSchema, UpdateUserDataSchema } from "@/schemas"
+import {
+	FriendRequestSchema,
+	LoginSchema,
+	RegisterSchema,
+	UpdateUserDataSchema,
+} from "@/schemas"
 import kyFetcher from "@/api/ky"
 import { User } from "@/types"
 
@@ -81,6 +86,32 @@ export const updateUser = async (
 		return { success: "Пользователь успешно обновлен" }
 	} catch (e) {
 		return { error: "Ошибка регистрации" }
+	}
+
+	// return пользователь зарегистрирован
+
+	// mutate("api/auth/login")
+}
+
+export const sendFriendRequest = async (
+	data: z.infer<typeof FriendRequestSchema>,
+) => {
+	const validatedFields = FriendRequestSchema.safeParse(data)
+
+	if (!validatedFields.success) {
+		return { error: "Ошибка валидации полей" }
+	}
+
+	try {
+		await kyFetcher
+			.post(`requests`, {
+				json: validatedFields.data,
+			})
+			.json()
+
+		return { success: "Запрос на добавление в друзья успешно отправлен" }
+	} catch (e) {
+		return { error: "Ошибка при отправке, попробуйте еще раз" }
 	}
 
 	// return пользователь зарегистрирован

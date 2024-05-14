@@ -1,10 +1,17 @@
 "use client"
-import React, { useState } from "react"
-import Image from "next/image"
+import React, { useState, useTransition } from "react"
 import Link from "next/link"
 import Input from "@/components/ui/Input"
 import Button from "@/components/ui/Button"
 import useOutsideClick from "@/hooks/useOutsideClick"
+import { Controller, useForm } from "react-hook-form"
+import * as z from "zod"
+import { FriendRequestSchema, LoginSchema } from "@/schemas"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { login, sendFriendRequest } from "@/api/user"
+import { ErrorMessage } from "@hookform/error-message"
+import { ErrorTextWrapper } from "@/components/ui/ErrorTextWrapper"
+
 enum EPosition {
 	"FRIENDS" = "FRIENDS",
 	"FRIEND_REQUESTS" = "FRIEND_REQUESTS",
@@ -14,7 +21,11 @@ const PrivateChatUsers = () => {
 	const [data, setData] = useState({
 		position: EPosition.FRIENDS,
 		contextAction: false,
+		friendRequestLogin: "",
+		error: "",
+		isFriendRequestSent: false,
 	})
+	const [isPending, startTransition] = useTransition()
 
 	const userRef = React.useRef<HTMLDivElement>(null)
 	useOutsideClick(userRef, () => {
@@ -25,6 +36,33 @@ const PrivateChatUsers = () => {
 		{ id: EPosition.FRIENDS, name: "Друзья" },
 		{ id: EPosition.FRIEND_REQUESTS, name: "Запросы дружбы" },
 	]
+
+	const form = useForm<z.infer<typeof FriendRequestSchema>>({
+		resolver: zodResolver(FriendRequestSchema),
+		mode: "onBlur",
+		defaultValues: {
+			login: "",
+		},
+	})
+
+	const onSubmit = async (data: z.infer<typeof FriendRequestSchema>) => {
+		setData(s => ({ ...s, isFriendRequestSent: false, error: "" }))
+
+		startTransition(() => {
+			sendFriendRequest({ login: data.login }).then(data => {
+				if (data?.error) {
+					return setData(s => ({ ...s, error: data?.error }))
+				} else {
+					setData(s => ({ ...s, isFriendRequestSent: true }))
+
+					return setTimeout(
+						() => setData(s => ({ ...s, isFriendRequestSent: false })),
+						1200,
+					)
+				}
+			})
+		})
+	}
 
 	return (
 		<div className='bg-grey-1e'>
@@ -81,10 +119,39 @@ const PrivateChatUsers = () => {
 				{data.position === EPosition.FRIEND_REQUESTS && (
 					<div className='flex flex-col gap-y-[20px]'>
 						<div className='flex flex-col overflow-y-scroll custom__scrollbar min-h-[80vh] max-h-[80vh] px-[18px]'>
-							<div className='flex flex-col gap-y-[12px] mt-[5px]'>
-								<Input type='text' placeholder='Введите логин...' />
-								<Button>Отправить запрос на добавление в друзья</Button>
-							</div>
+							<form
+								onSubmit={form.handleSubmit(onSubmit)}
+								className='flex flex-col gap-y-[12px] mt-[5px]'
+							>
+								<div className='w-full'>
+									<Controller
+										name='login'
+										control={form.control}
+										render={({ field }) => (
+											<Input
+												{...field}
+												placeholder='Введите логин...'
+												name='login'
+											/>
+										)}
+									/>
+									<div>
+										<ErrorMessage
+											errors={form.formState.errors}
+											name='login'
+											render={({ message }) => (
+												<ErrorTextWrapper>{message}</ErrorTextWrapper>
+											)}
+										/>
+									</div>
+								</div>
+								<span className='text-[10px]'>{data.error}</span>
+								<Button>
+									{data.isFriendRequestSent
+										? "Запрос отправлен"
+										: "Отправить запрос на добавление в друзья"}
+								</Button>
+							</form>
 							<div className='h-[1px] border-b-[1px] border-b-blue-main w-full my-[30px]' />
 							<div
 								onContextMenu={e => {
