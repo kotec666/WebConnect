@@ -3,6 +3,10 @@ import { AddDto } from './dto/add.dto';
 import { PrismaService } from '../../../prisma/prisma.service';
 import { ERRORS } from '../../../validator/errors';
 import {ApproveDto} from "./dto/approve.dto";
+import {paginationByPage, PaginationQuery} from "../../../helpers/pagination";
+import {UsersService} from "../../users.service";
+import prismaExclude from "../../../helpers/prismaExclude";
+import {PaginatedList} from "./queries/add.dto";
 
 @Injectable()
 export class RequestsService {
@@ -39,7 +43,6 @@ export class RequestsService {
   }
 
   async approve(id: number, approveDto: ApproveDto) {
-    console.log(id, approveDto)
     const request =  await this.prisma.friendRequest.findFirstOrThrow({
       where: {
         senderId: approveDto.id,
@@ -47,6 +50,44 @@ export class RequestsService {
       },
     })
 
-    return request;
+    const friend = await this.prisma.friend.create({
+      data: {
+        ownerId: id,
+        friendId: approveDto.id,
+      }
+    })
+    await this.prisma.friend.create({
+      data: {
+        ownerId: approveDto.id,
+        friendId: id,
+      }
+    })
+
+    await this.prisma.friendRequest.delete({
+      where: {
+        recipientId_senderId: {
+          recipientId: id,
+          senderId: approveDto.id
+        }
+      }
+    })
+
+    return friend;
+  }
+
+  paginatedList(pagination: PaginatedList, id: number) {
+    return this.prisma.friendRequest.findMany({
+      ...paginationByPage(pagination.page, pagination.take),
+      where: pagination.outgoing ? {
+        senderId: id,
+      } : {
+        recipientId: id
+      },
+      include: {
+        sender: {
+          select: prismaExclude("User", UsersService.exclude)
+        }
+      }
+    })
   }
 }

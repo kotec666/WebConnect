@@ -20,6 +20,7 @@ model User {
   password String?
 
   friends              Friend[]        @relation("friends")
+  friendsOwn              Friend[]        @relation("friendsOwn")
   friendRequest        FriendRequest[] @relation("friendRequestsRecipient")
   FriendRequestPenging FriendRequest[] @relation("friendRequestsSender")
 }
@@ -36,6 +37,8 @@ model FriendRequest {
 model Friend {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
-  owner     User?    @relation("friends", fields: [ownerId], references: [id])
-  ownerId   Int?
+  owner     User    @relation("friends", fields: [ownerId], references: [id])
+  ownerId   Int
+  friend User @relation("friendsOwn", fields: [friendId], references: [id])
+  friendId Int
 }
