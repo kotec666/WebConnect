@@ -13,16 +13,22 @@ export class RequestsService {
   constructor(private prisma: PrismaService) {}
 
   async add(id: number, addDto: AddDto) {
+    const recipient = await this.prisma.user.findFirstOrThrow({
+      where: {
+        name: addDto.name
+      }
+    })
+
     if (
       await this.prisma.friendRequest.findFirst({
         where: {
           OR: [
             {
               senderId: id,
-              recipientId: addDto.id,
+              recipientId: recipient.id,
             },
             {
-              senderId: addDto.id,
+              senderId: recipient.id,
               recipientId: id,
             },
           ],
@@ -35,7 +41,7 @@ export class RequestsService {
     await this.prisma.friendRequest.create({
       data: {
         senderId: id,
-        recipientId: addDto.id,
+        recipientId: recipient.id,
       },
     });
 
@@ -43,9 +49,15 @@ export class RequestsService {
   }
 
   async approve(id: number, approveDto: ApproveDto) {
+    const recipient = await this.prisma.user.findFirstOrThrow({
+      where: {
+        name: approveDto.name
+      }
+    })
+
     const request =  await this.prisma.friendRequest.findFirstOrThrow({
       where: {
-        senderId: approveDto.id,
+        senderId: recipient.id,
         recipientId: id,
       },
     })
@@ -53,12 +65,12 @@ export class RequestsService {
     const friend = await this.prisma.friend.create({
       data: {
         ownerId: id,
-        friendId: approveDto.id,
+        friendId: recipient.id,
       }
     })
     await this.prisma.friend.create({
       data: {
-        ownerId: approveDto.id,
+        ownerId: recipient.id,
         friendId: id,
       }
     })
@@ -67,7 +79,7 @@ export class RequestsService {
       where: {
         recipientId_senderId: {
           recipientId: id,
-          senderId: approveDto.id
+          senderId: recipient.id
         }
       }
     })
