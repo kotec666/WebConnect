@@ -30,3 +30,7 @@ export const UpdateUserDataSchema = z.object(
 	},
 	{ required_error: "Обязательное поле" },
 )
+
+export const FriendRequestSchema = z.object({
+	login: z.string().min(1, "Обязательное поле"),
+})
