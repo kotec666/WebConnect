@@ -1,5 +1,6 @@
 const { config } = require("dotenv")
 const { replaceInFileSync } = require("replace-in-file")
+const {readdirSync} = require("node:fs");
 
 config({
 	path: ".env",
@@ -19,7 +20,7 @@ const replace = (ext = "js") => {
 
 	searchKeys.map(key => {
 		const r = replaceInFileSync({
-			files: `app/**/*.${ext}`,
+			files: `./**/*.${ext}`,
 			from: `$${key}$`,
 			to: env[key],
 			glob: {
@@ -28,7 +29,7 @@ const replace = (ext = "js") => {
 		})
 
 		console.log(key, `mapped in .${ext}`)
-
+		console.log(res)
 		res.push(r.filter(r => r.hasChanged === true))
 	})
 
